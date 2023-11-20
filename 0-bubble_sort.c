@@ -12,7 +12,7 @@ void bubble_sort(int *array, size_t size)
 int i;
 size_t x = 0, y;
 
-if (!size || !array)
+if (size < 2 || array == NULL)
 return;
 
 while (x < size)
