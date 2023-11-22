@@ -1,6 +1,26 @@
 #include "sort.h"
 
 /**
+ * swap - swap two arrays givin numbers
+ *
+ * @array: the int array to sort
+ * @size: the size of the array
+ * @x: the first int to swap
+ * @y: the second int to swap
+*/
+
+void swap(int *array, size_t size, int *x, int *y)
+{
+	if (*x != *y)
+	{
+		*x = *x + *y;
+		*y = *x - *y;
+		*x = *x - *y;
+		print_array((const int *)array, size);
+	}
+}
+
+/**
  * lomuto_partitioner - partitioning the array
  *
  * @array: the int array to sort
@@ -13,12 +33,13 @@
 
 size_t lomuto_partitioner(int *array, size_t size, size_t low, size_t high)
 {
-	int x, y, pivot = array[high];
-
+	int x, pivot = array[high];
+	size_t y;
+	
 	for (x = y = low; y < high; y++)
 		if (array[y] < pivot)
-			swaper(array, size, &array[y], &array[x++]);
-	swaper(array, size, &array[x], &array[high]);
+			swap(array, size, &array[y], &array[x++]);
+	swap(array, size, &array[x], &array[high]);
 
 	return (x);
 }
@@ -44,27 +65,6 @@ void quicksorter(int *array, size_t size, size_t low, size_t high)
 }
 
 /**
- * swaper - swap two arrays
- *
- * @array: the int array to sort
- * @size: the size of the array
- * @x: the first int to swap
- * @y: the second int to swap
-*/
-
-void swaper(int *array, size_t size, int *x, int *y)
-{
-	if (*x != *y)
-	{
-		int *temp;
-		*temp = *y;
-		*y = *x;
-		*x = *temp;
-		print_array((const int *)array, size);
-	}
-}
-
-/**
  * quick_sort - sorting function using quick sort
  *
  * @array: the array for sorting
@@ -73,7 +73,7 @@ void swaper(int *array, size_t size, int *x, int *y)
 
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL || size == NULL)
+	if (array == NULL || !size)
 		return;
 	quicksorter(array, size, 0, size - 1);
 }
